@@ -7,6 +7,22 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
+import { MqttModule, MqttService , IMqttServiceOptions} from 'ngx-mqtt';
+
+export const MQTT_SERVICE_OPTIONS : IMqttServiceOptions = {
+  hostname: '178.128.55.79',
+  connectOnCreate: true,
+  port: 1880,
+  protocol : "wss",
+  username : "owwMxnfv",
+  password : "1A0mykk7",
+  path: '/'
+};
+
+export function mqttServiceFactory() {
+  return new MqttService(MQTT_SERVICE_OPTIONS);
+}
+
 @NgModule({
   declarations: [
     MyApp,
@@ -14,7 +30,11 @@ import { HomePage } from '../pages/home/home';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    MqttModule.forRoot({
+      provide: MqttService,
+      useFactory: mqttServiceFactory
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
